@@ -1,8 +1,13 @@
 #include <iostream>
 #include "node.h"
+#include "windows.h" //Included to make certain UTF-8 symbols appear on Windows
 
 int main()
 {
+    //Included to make certain UTF-8 symbols appear on Windows
+    SetConsoleOutputCP(CP_UTF8);
+    setvbuf(stdout, nullptr, _IOFBF, 10);
+
 
     Node<int> noden;
 
@@ -16,6 +21,7 @@ int main()
     noden.insert(&noden,100);
     noden.insert(&noden,180);
     noden.insert(&noden,10);
+
 
     std::cout << "pre order ";
     noden.preOrder(&noden);
@@ -34,4 +40,9 @@ int main()
 
     std::cout << "post order ";
     noden.postOrder(&noden);
-    std::cout<< std::endl;}
+    std::cout<< std::endl;
+
+
+    noden.PrintTree(&noden);
+
+}
