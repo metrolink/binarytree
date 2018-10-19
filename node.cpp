@@ -1,5 +1,8 @@
 #include "node.h"
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 template <typename T>
 Node<T>::Node()
@@ -27,6 +30,58 @@ int Node<T>::GetValue(){
 template <typename T>
 void Node<T>::SetValue(int m_data){
     this->m_data = m_data;
+}
+
+template<typename T>
+void Node<T>::PrintTree(Node *root)
+{
+
+    if (root == nullptr)
+    {
+            return;
+    }
+
+    cout << root->m_data << endl;
+    PrintSubtree(root, "");
+    cout << endl;
+
+}
+
+template<typename T>
+void Node<T>::PrintSubtree(Node *root, const string &prefix)
+{
+
+    if (root == nullptr)
+    {
+            return;
+    }
+
+    bool hasLeft = (root->m_vsub != nullptr);
+    bool hasRight = (root->m_hsub != nullptr);
+
+    if (!hasLeft && !hasRight)
+    {
+            return;
+    }
+
+    cout << prefix;
+    cout << ((hasLeft  && hasRight) ? "├── " : "");
+    cout << ((!hasLeft && hasRight) ? "└── " : "");
+
+    if (hasRight)
+    {
+            bool printStrand = (hasLeft && hasRight && (root->m_hsub->m_hsub != nullptr || root->m_hsub->m_vsub != nullptr));
+            string newPrefix = prefix + (printStrand ? "│   " : "    ");
+            cout << root->m_hsub->m_data << endl;
+            PrintSubtree(root->m_hsub, newPrefix);
+    }
+
+    if (hasLeft)
+    {
+            cout << (hasRight ? prefix : "") << "└── " << root->m_vsub->m_data << endl;
+            PrintSubtree(root->m_vsub, prefix + "    ");
+    }
+
 }
 
 template <typename T>
